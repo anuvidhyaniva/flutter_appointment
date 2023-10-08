@@ -41,7 +41,7 @@ class BookAppointmentProvider extends ChangeNotifier {
     selectedDateIndex = index;
     selectedTimeIndex = 0;
     selectedDate = date;
-    selectedTime = "";
+   
     notifyListeners();
   }
 

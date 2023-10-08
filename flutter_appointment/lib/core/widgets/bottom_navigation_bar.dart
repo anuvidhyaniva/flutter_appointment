@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 class BottomBar extends StatelessWidget {
   final void Function() onPressed;
   final String buttonText;
-  const BottomBar({super.key, required this.onPressed, required this.buttonText});
+  final bool? isConfirmationPage;
+  const BottomBar(
+      {super.key,
+      required this.onPressed,
+      required this.buttonText,
+      this.isConfirmationPage});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 70,
+        height:
+            isConfirmationPage != null ? (isConfirmationPage! ? 140 : 80) : 80,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0), // Top-left corner radius
@@ -28,22 +34,29 @@ class BottomBar extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width*0.9,
-              child: ElevatedButton(
-                style:ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0)
-          ),
-              
-            ),
-                onPressed: onPressed,
-                child:  Text(buttonText)
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: <Widget>[
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 15.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0)),
+                        ),
+                        onPressed: onPressed,
+                        child: Text(buttonText)),
+                    Visibility(
+                        visible: isConfirmationPage ?? false,
+                        child: TextButton(
+                            onPressed: onPressed,
+                            child: const Text("Book Another")))
+                  ],
+                ),
               ),
             ),
           ),
-        )
-    );
-      
+        ));
   }
 }
